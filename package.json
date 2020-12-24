@@ -9,6 +9,9 @@
     "test-with-coverage": "jest tests/ --collectCoverage=true",
     "lint": "eslint app/**/*"
   },
+  "bin": {
+    "start": "node app/index.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jk1z/GitLab-Release-Note-Generator.git"
