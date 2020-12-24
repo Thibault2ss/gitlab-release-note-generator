@@ -10,7 +10,7 @@
     "lint": "eslint app/**/*"
   },
   "bin": {
-    "gitlab-release-note-generator": "node ./app/index.js"
+    "gitlab-release-note-generator": "./app/index.js"
   },
   "repository": {
     "type": "git",
