@@ -81,14 +81,25 @@ exports._populateIssuesWithBucketByIssue = (bucket, issues, options = {}) => {
 exports._populateMergeRequestsWithBucketByMergeRequests = (bucket, mergeRequests, options = {}) => {
   for (const mergeRequest of mergeRequests) {
     let added = false;
+
+    // if MR is labeled, add it to the corresponding section
     for (const label of mergeRequest.labels || []) {
       if (_.has(bucket, label)) {
         bucket[label].push(MergeRequestLib.decorateMergeRequest(mergeRequest, options));
         added = true;
       }
     }
+    
+    // If not added in any section, and MR starts with 'fix', added to bugs
+    if (!added && mergeRequest.title && mergeRequest.title.slice(0, 3).toLowerCase() === 'fix' && _.has(bucket, 'bug')) {
+      bucket.bug.push(MergeRequestLib.decorateMergeRequest(mergeRequest, options));
+      added = true;
+    }
+
+    // If not added in any section, add MR to MR section
     if (!added) bucket.mergeRequests.push(MergeRequestLib.decorateMergeRequest(mergeRequest, options));
   }
+
   return bucket;
 };
 
